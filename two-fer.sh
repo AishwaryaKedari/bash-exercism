@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # The following comments should help you get started:
 
 if [ -z "$1" ] 
