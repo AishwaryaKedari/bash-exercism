@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+output=$(echo $1 | tr "-" "\n" | tr " " "\n")
+
+echo "output is: "$output
+for addr in $output
+do
+    result=${addr:0:1}
+    echo "${result[0]^}"
+    # for new in $addr
+    # do
+    #     result=${new:0:1}
+    #     echo "result is: ${result[0]^}"
+    # done
+done
