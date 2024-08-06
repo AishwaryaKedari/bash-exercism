@@ -1,0 +1,40 @@
+#!/bin/bash
+#Case task
+clear
+U_NAME="  ***User name is:"
+FRUIT_MSG="Fruit name is: "
+
+zopalu(){
+        eval message="$1"
+        echo $message $2 >> "output_$(date +%Y-%m-%d).txt"
+}
+echo -n "Enter your name: "
+read name
+zopalu "\${U_NAME}" "$name fruit choice on $(date +%y-%m-%d)"
+while :
+do
+        echo " Select Fruits";
+        echo "1. cantaloupe"
+        echo "2. Avocado"
+        echo "3. Mandarin"
+        echo "4. Pineapple"
+        echo "5. Exit "
+        echo -n "Choose your favorite fruit: " 
+        read choice
+        case "$choice" in
+                1) echo " Cantaloupe" 
+                        zopalu "\${FRUIT_MSG}" "cantaloupe"
+                        ;;
+                2) echo " Avocado" 
+                        zopalu "\${FRUIT_MSG}" "Avacado"
+                        ;;
+                3) echo " Mandarin" 
+                        zopalu "\${FRUIT_MSG}" "Mandarin";;
+                4) echo " Pineapple" 
+                        zopalu "\${FRUIT_MSG}" "Pineapple";;
+                5) echo "Quit"
+                       exit;;
+        esac
+done
+
+#date +"Year: %Y, Month: %m, Day: %d"
