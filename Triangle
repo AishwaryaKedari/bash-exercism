@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This only works for integers
+
+if (($(bc <<<"$2 + $3 <= $4 || $3 + $4 <= $2 || $4 + $2 <= $3"))); then
+    echo false
+    exit
+fi
+
+if [[ $1 == equilateral ]]
+then
+    (($(bc <<<"$2 == $3 && $3 == $4"))) && echo true || echo false
+elif [[ $1 == isosceles ]]
+then
+    (($(bc <<<"$2 == $3 || $3 == $4 || $4 == $2"))) && echo true || echo false
+elif [[ $1 == scalene ]]
+then
+    (($(bc <<<"$2 != $3 && $3 != $4 && $4 != $2"))) && echo true || echo false
+fi
