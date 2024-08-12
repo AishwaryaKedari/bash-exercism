@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+stack=()
+for (( i=0; i<${#1}; i++ ))
+do
+	case "${1:i:1}" in 
+    "G")
+		stack+="C" ;;
+    "C")
+		stack+="G" ;;
+	"T")
+		stack+="A" ;;
+	"A")
+		stack+="U" ;;
+	*)
+		echo "Invalid nucleotide detected."
+		exit 1
+	esac
+done
+echo "$stack"
