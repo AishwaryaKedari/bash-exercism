@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+res1="${1//[^A]}"
+res2="${1//[^C]}" 
+res3="${1//[^G]}"
+res4="${1//[^T]}"
+if [[ $(echo $1 | tr -d ACGT) != "" ]]
+then
+    echo 'Invalid nucleotide in strand'
+    exit 1;
+fi
+echo "A: ${#res1}"
+echo "C: ${#res2}"
+echo "G: ${#res3}"
+echo "T: ${#res4}"
