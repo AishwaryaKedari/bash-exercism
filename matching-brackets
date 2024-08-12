@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+declare -A brackets=( [")"]="(" \
+		["]"]="[" \
+		["}"]="{" )
+	stack=""
+	for (( i = 0; i < ${#1}; i++ )); do
+		char=${1:i:1}
+		if [[ "$char" == "(" || "$char" == "[" || "$char" == "{" ]]; then
+			stack="$stack$char"
+		elif [[ "$char" == ")" || "$char" == "]" || "$char" == "}" ]]; then
+			if (( ${#stack} == 0)); then
+				echo false
+				exit 0
+			elif [[ "${stack:$(( ${#stack} - 1 )):1}" == "${brackets["$char"]}" ]]; then
+				stack=${stack%"${brackets["$char"]}"}
+			else
+				echo false
+				exit 0
+			fi
+		fi
+	done
+	(( ${#stack} == 0 )) && echo true || echo false
+# [[ "${#stack[@]}" -eq 0 ]] && echo true || echo false
