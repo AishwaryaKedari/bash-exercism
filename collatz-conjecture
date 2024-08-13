@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+input=$1
+count=0
+if [[ $input < 1 ]]
+then
+    echo "Error: Only positive numbers are allowed"
+    exit 1
+fi
+while [ $input -ne 1 ]; do
+    (( count++ ))
+    (( $input % 2 == 0 )) && (( input /= 2 )) || (( input = $input * 3 + 1 ))
+done
+echo $count
