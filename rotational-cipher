@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+#!/usr/bin/env bash
+input=$1
+len=${#input}
+num=$2
+lower=( {a..z} ) 
+upper=( {A..Z} )
+
+
+for (( i=0; i<len; i++ )); do
+    for (( j=0; j<26; j++ )); do
+        output=${input[0]:i:1}
+    
+        if [[ $output == "${lower[j]}" ]]; then
+            if [[ $(( j + num )) -lt 26 ]]; then
+                result+=("${lower[j + num]}")
+            else
+                result+=("${lower[j + num - 26]}")
+            fi
+        elif [[ $output == "${upper[j]}" ]]; then
+            if [[ $(( j + num )) -lt 26 ]]; then
+                result+=("${upper[j + num ]}")
+            else
+                result+=("${upper[j + num - 26]}")
+            fi
+        fi
+    done
+    
+    if [[ $output == [[:punct:]] ]]; then
+        result+=("$output")
+    elif [[ $output == [[:space:]] ]]; then
+        result+=("$output")
+    elif [[ $output == [[:digit:]] ]]; then
+        result+=("$output")
+    fi  
+done
+
+printf %s "${result[@]}" $'\n'
+
+ 
