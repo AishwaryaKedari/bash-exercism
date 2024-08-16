@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+wordy ()
+{
+  input="$1"
+  result=${input//plus/+}
+  result=${result//minus/-}
+  result=${result//multiplied by/*}
+  result=${result//divided by//}
+  result="${result%?}"
+  result=( $result )
+  format="^What is .+\\?"
+  if [[  "${#result[@]}" == 2 ]]
+  then
+    echo "syntax error"
+    return 1
+  elif [[ ! $input =~ $format \
+      || ! ${input: -1:1} == '?'\
+      ||  ${result[-1]} =~ ^[^-+*/0-9]+$ ]]
+  then
+      echo "unknown operation"
+      return 1
+  elif [[ ! ${result[-1]} =~ -?[0-9]+ ]]
+  then
+      echo "syntax error"
+      return 1
+  fi
+  for (( i = 2; i < ${#result[@]}; i++ ))
+  do
+      o="${result[$i]}"
+      [[ $o == 'm' ]] && o='*'
+      if (( i%2 == 0 ))  && [[ $o =~ ^[+*-/]$ ]] \
+      || (( i%2 ))  && [[ $o =~ ^-?[0-9]+$ ]]
+      then
+          echo "syntax error"
+          return 1
+      fi
+      if [[ $(( i%2 == 0 ))  &&  ! $result ]]
+      then
+          result="$o"
+      elif [[ "$o" =~ ^[-*+/]$ ]]
+      then
+          result+="$o"
+      else
+          result=$(( "$result $o" ))
+      fi
+  done
+  echo "$result"
+}
+
+(( $# > 1 )) && echo "invalid number of arguments" && exit 1
+wordy "$1"
