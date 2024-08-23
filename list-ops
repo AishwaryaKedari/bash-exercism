@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    echo "This library of functions should be sourced into another script" >&2
+    exit 4
+fi
+bash_version=$((10 * BASH_VERSINFO[0] + BASH_VERSINFO[1]))
+if (( bash_version < 43 )); then
+    echo "This library requires at least bash version 4.3" >&2
+    return 4
+fi
+
+# Append some elements to the given list.
+list::append () {
+     eval "$1+=( ${@:2} )"
+}
+
+# Return only the list elements that pass the given function.
+list::filter () {
+    myFunc=$1
+    local -n myList=$2
+    filtered=()
+    for value in "${myList[@]}" 
+    do 
+        if  $1 "$value" -eq 1;
+        then
+            filtered+=("$value")
+        fi
+    done
+    eval "$3=(${filtered[*]})"
+}
+
+# Transform the list elements, using the given function,
+# into a new list.
+list::map () {
+    myFunc=$1
+    local -n myList=$2
+    result=()
+    for value in "${myList[@]}"
+    do
+     elem=$($1 "$value")
+     result+=("$elem")
+    done
+    eval "$3=(${result[*]})"
+}
+
+# Left-fold the list using the function and the initial value.
+list::foldl () {
+    myFunc=$1
+    acc=$2
+    local -n myList=$3
+    for value in "${myList[@]}"
+    do
+     acc="$($myFunc "$acc" "$value")"
+    done
+    echo "$acc"
+}
+
+# Right-fold the list using the function and the initial value.
+list::foldr () {
+    myFunc=$1
+    acc=$2
+    local -n myList=$3
+    for  (( i=${#myList[@]}-1; i>=0; i--))
+    do
+      value=${myList[$i]}
+      acc="$($myFunc "$value" "$acc")"      
+    done
+    echo "$acc"
+}
+
+# Return the list reversed
+list::reverse () {
+    local -n __rev_lst=$1 __rev_res=$2
+    local i
+    for ((i = ${#__rev_lst[@]} - 1; i >= 0; i--))
+    do
+        __rev_res+=("${__rev_lst[i]}")
+    done
+}
