@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+
+declare -A twelve_items
+twelve_items[0]='twelve Drummers Drumming, '
+twelve_items[1]='eleven Pipers Piping, '
+twelve_items[2]='ten Lords-a-Leaping, '
+twelve_items[3]='nine Ladies Dancing, '
+twelve_items[4]='eight Maids-a-Milking, '
+twelve_items[5]='seven Swans-a-Swimming, '
+twelve_items[6]='six Geese-a-Laying, '
+twelve_items[7]='five Gold Rings, '
+twelve_items[8]='four Calling Birds, '
+twelve_items[9]='three French Hens, '
+twelve_items[10]='two Turtle Doves, and '
+twelve_items[11]=$'a Partridge in a Pear Tree.\n'
+    
+days=([0]="first" 
+    [1]="second" 
+    [2]="third" 
+    [3]="fourth" 
+    [4]="fifth" 
+    [5]="sixth" 
+    [6]="seventh" 
+    [7]="eighth" 
+    [8]="ninth" 
+    [9]="tenth" 
+    [10]="eleventh" 
+    [11]="twelfth")
+    
+
+function song() {
+    echo -n "On the ${days[$1]} day of Christmas my true love gave to me: "
+    for (( i=11-$1; i<12; ++i ))
+    do
+        echo -n "${twelve_items[$i]}"
+    done
+}
+
+for (( j=$1-1; j<$2; ++j ))
+do
+    song $j
+done
