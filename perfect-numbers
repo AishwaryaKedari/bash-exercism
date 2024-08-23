@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+num=$1
+sum=0
+if (( $num <= 0 )); then
+    echo "Classification is only possible for natural numbers."
+    exit 1
+else
+    sqrt=$(echo "sqrt($num)" | bc)
+    for (( i=1; i<=sqrt; i++ )); do
+        if (( num % i == 0 )); then
+            if (( i != num/i )); then
+                sum=$(( sum + i + (num/i) ))
+            else
+                sum=$(( sum + i ))
+            fi
+        fi
+    done
+    sum=$(( sum - num ))
+   # echo "$sum"
+    if (( sum == num )); then
+        echo "perfect"
+    elif (( sum < num )); then
+        echo "deficient"
+    else 
+        echo "abundant"
+    fi
+fi
