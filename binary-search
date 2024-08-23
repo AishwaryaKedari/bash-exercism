@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+array=("${@:2}")
+
+((right = ${#array[@]} - 1))
+
+while ((left <= right)); do
+    ((middle = (left + right) / 2))
+    if ((array[middle] < $1)); then
+        ((left = middle + 1))
+    elif ((array[middle] > $1)); then
+        ((right = middle - 1))
+    else
+        echo "$middle"
+        exit
+    fi
+done
+
+echo -1
