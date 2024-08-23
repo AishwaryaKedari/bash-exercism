@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+limit=$1
+multiples=( "$@" )
+
+declare -A result
+for b in "${multiples[@]}"; do
+    a=$b
+    while (( b < limit && b > 0 )); do
+        result[$b]=
+        (( b += a ))
+    done
+done
+for n in "${!result[@]}"; do (( out += n )); done
+echo ${out-0}
