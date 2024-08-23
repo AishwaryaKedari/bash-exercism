@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#!/usr/bin/env bash
+
+input1=$(echo $1 | tr -d '[]')
+input2=$(echo $2 | tr -d '[]')
+
+if [[ $input1 == $input2 ]]; then    
+    echo equal
+elif [[ $input1 == "" ]]; then
+    echo sublist
+elif [[ $input2 ==  "" ]]; then
+    echo superlist
+elif [[ $input1 =~ "$input2," || $input1 =~ ${input2}$ ]]; then
+    echo superlist
+elif [[ $input2 =~ "$input1," || $input2 =~ ${input1}$  ]]; then
+    echo sublist
+else
+    echo unequal
+fi
+
+exit 0
