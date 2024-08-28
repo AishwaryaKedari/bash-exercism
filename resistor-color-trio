@@ -1,0 +1,22 @@
+bottles=1
+function beer_song() {
+    # echo -n "On the ${days[$i]} day of Christmas my true love gave to me: "
+    # echo -n "$i bottles of beer on the wall, 99 bottles of beer.""
+    for ((i=99; i>=$bottles; i--))
+    do
+        printf "%s bottles of beer on the wall, %s bottles of beer.\n" "$i" "$i"
+        # printf "Take one down and pass it around, $((i-1)) bottles of beer on the wall.\n\n"
+        if [[ $((i-1)) -eq 0 ]]
+        then
+          printf "Take one down and pass it around, no more bottles of beer on the wall.\n\n"
+          printf "No more bottles of beer on the wall, no more bottles of beer
+Go to the store and buy some more, 99 bottles of beer on the wall."
+        else
+          printf "Take one down and pass it around, %s bottles of beer on the wall.\n\n" "$((i-1))"
+        fi
+          
+    done
+    
+}
+
+beer_song $bottles
