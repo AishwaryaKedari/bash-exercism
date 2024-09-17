@@ -1,0 +1,34 @@
+#!/bin/bash
+
+score="$1"
+declare -A item
+item[1]='eggs'
+item[2]='peanuts'
+item[4]='shellfish'
+item[8]='strawberries'
+item[16]='tomatoes'
+item[32]='chocolate'
+item[64]='pollen'
+item[128]='cats'
+
+for (( i=1024; score>0; ))
+do
+    if [[ $score -ge $i ]]
+    then
+        (( score -= i ))
+        allergic=" ${item[$i]}$allergic"
+    else
+        (( i /= 2 ))
+    fi
+done
+
+case "$2" in
+    allergic_to)
+        if [[ "$allergic" =~ "$3" ]]
+        then
+            echo 'true'
+        else
+            echo 'false'
+        fi;;
+    list)   echo $allergic;;
+esac
