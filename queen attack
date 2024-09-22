@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+check_coordinates() {
+    x="${1}"
+    y="${2}"
+
+    if [ "${x}" -lt "0" ]
+    then
+        echo "row not positive"
+        exit 1
+    elif [ "${x}" -gt "7" ]
+    then
+        echo "row not on board"
+        exit 1
+    elif [ "${y}" -lt "0" ]
+    then
+        echo "column not positive"
+        exit 1
+    elif [ "${y}" -gt "7" ]
+    then
+        echo "column not on board"
+        exit 1
+    else
+        return 0
+    fi
+    
+}
+
+queen_can_attack() {
+    x1="${1}"
+    y1="${2}"
+    x2="${3}"
+    y2="${4}"
+
+    diff_x=$((x2 - x1))
+    diff_y=$((y2 - y1))
+
+    if [ "${diff_x}" -eq "0" ] && [ "${diff_y}" -eq "0" ]
+    then
+        echo "same position"
+        exit 1
+    elif [ "${x1}" -eq "${x2}" ] || [ "${y1}" -eq "${y2}" ]
+    then
+        echo "true"
+    else
+        slope=$(scale=1; echo "${diff_y}/${diff_x}" | bc)
+        attack_check=$(echo "${slope} == 1.0" | bc)
+        if [ "${attack_check}" -eq "1" ]
+        then
+            echo "true"
+        else
+            attack_check=$(echo "${slope} == -1.0" | bc)
+            if [ "${attack_check}" -eq "1" ]
+            then
+                echo "true"
+            else
+                echo "false"
+            fi
+        fi
+    fi
+    
+}
+
+while getopts ":w:b:" o
+do
+    case "${o}" in
+        w)
+            coordinates="${OPTARG}"
+            w_x=$(echo "${coordinates}" | cut -d',' -f1)
+            w_y=$(echo "${coordinates}" | cut -d',' -f2)
+            check_coordinates "${w_x}" "${w_y}"
+        ;;
+        b)
+            coordinates="${OPTARG}"
+            b_x=$(echo "${coordinates}" | cut -d',' -f1)
+            b_y=$(echo "${coordinates}" | cut -d',' -f2)
+            check_coordinates "${b_x}" "${b_y}"
+        ;;
+        *)
+            echo "Usage: $0 -w x1,y1 -b x2,y2"
+            exit 1
+        ;;
+    esac
+done
+
+queen_can_attack "${w_x}" "${w_y}" "${b_x}" "${b_y}"
