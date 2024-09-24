@@ -1,0 +1,58 @@
+
+declare -a last=(
+    'the house that Jack built.'
+    'the malt'
+    'the rat'
+    'the cat'
+    'the dog'
+    'the cow with the crumpled horn'
+    'the maiden all forlorn'
+    'the man all tattered and torn'
+    'the priest all shaven and shorn'
+    'the rooster that crowed in the morn'
+    'the farmer sowing his corn'
+    'the horse and the hound and the horn'
+)                                                                                   
+
+declare -a first=(
+    'lay in'
+    'ate'
+    'killed'
+    'worried'
+    'tossed'
+    'milked'
+    'kissed'
+    'married'
+    'woke'
+    'kept'
+    'belonged to'
+)
+
+
+print_poem () {
+    local num="$1"
+    local i=$num;
+    
+    for (( ; i>=0; i-- )); do
+        if [[ $i -eq $num ]]; then
+            echo "This is ${last[$i]}"
+        else
+            echo "that ${first[$i]} ${last[$i]}"
+        fi
+    done;
+}
+
+num=1
+to=2
+    
+[[ $num -lt 1 ]] || [[ $num -gt 12 ]] && { echo >&2 'invalid'; exit 1; }
+[[ $to -lt 1 ]] || [[ $to -gt 12 ]] && { echo >&2 'invalid'; exit 1; }
+    
+(( num-- ))
+(( to-- ))
+i=$num
+for (( ; i<=$to; i++ ))
+do
+    print_poem $i
+    echo ''
+done
