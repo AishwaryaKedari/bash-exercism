@@ -4,8 +4,9 @@ switch case :- allergies
 dictionary
 array
 stack
+
 Matrix :- queen attack
-# Interpretation of octal numbers in bash :- 
+## Interpretation of octal numbers in bash :- 
   The shell tries to interpret 08 as an octal number, as it starts with a zero. Only digits 0-7 are, however, allowed in octal, as decimal 8 is octal 010. Hence 08 is not a valid number, and that's the reason for the error.
 
 Single brackets are kind of "compatibility mode" with sh, and sh does not know about octal numbers.
