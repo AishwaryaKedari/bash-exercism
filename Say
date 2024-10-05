@@ -1,0 +1,77 @@
+var=1021
+
+declare -A numbers=( 
+    [1]=one [2]=two [3]=three [4]=four
+    [5]=five [6]=six [7]=seven [8]=eight
+    [9]=nine [10]=ten [11]=eleven [12]=twelve
+    [13]=thirteen [14]=fourteen [15]=fifteen
+    [16]=sixteen [17]=seventeen [18]=eighteen
+    [19]=nineteen [20]=twenty [30]=thirty
+    [40]=forty [50]=fifty [60]=sixty
+    [70]=seventy [80]=eighty [90]=ninety
+    [0]=zero
+)
+
+if [[ $var -lt 0 ]]
+then
+    echo "input out of range"
+    exit 1
+fi
+if [[ $var -lt 20 ]]
+then
+    echo ${numbers[$var]}
+elif [[ $var -lt 100 ]]
+then
+    if [[ $(($var % 10 )) == 0 ]]
+    then
+        echo "${numbers[$var]}"
+    else
+        tens_num=$(($var % 10))
+        hundreds=$(($var/10*10))
+        echo "${numbers[$hundreds]}-${numbers[$tens_num]}"
+    fi 
+elif [[ $var -lt 1000 ]]
+then
+    if [[ $(($var%100)) == 0 ]]
+    then
+        hundreds=$(($var/100))
+        echo "${numbers[$hundreds]} hundred"
+    else
+        thousands=$(($var/100))*100
+        hundreds=$(($var%100))
+        echo "${numbers[$thousands]}-${numbers[$hundreds]}"
+    fi 
+elif [[ $var -lt 999999 ]]
+then
+    if [[ $(($var%1000)) == 0 ]]
+    then
+        thousands=$(($var/1000))
+        echo "${numbers[$thousands]} thousand"
+    else
+        thousands=$(($var/1000))
+        thousands_num=$(($var%1000))
+        echo "${numbers[$thousands]} thousand ${numbers[$thousands_num]}"
+    fi
+elif [[ $var -lt 1000000000 ]]
+then
+    if [[ $(($var%1000000)) == 0 ]]
+    then
+        sixth=$(($var/1000000))
+        echo ${numbers[$sixth]} million
+    else
+        sixth=$(($var%1000000))
+        sixths=$(($var/1000000))
+        echo ${numbers[$sixths]} million ${numbers[$sixth]} 
+    fi 
+elif [[ $var -lt 1000000000000 ]]
+then
+    if [[ $(($var%1000000000000)) == 0 ]]
+    then
+        billions=$(($var/1000000000))
+        echo ${numbers[$billions]} billion
+    else
+        billions=$(($var/1000000000))
+        billions_num=$(($var%1000000000))
+        echo ${numbers[$billions]} billion ${numbers[$billions_num]}
+    fi
+fi
