@@ -1,4 +1,4 @@
-var=1021
+var=123
 
 declare -A numbers=( 
     [1]=one [2]=two [3]=three [4]=four
@@ -37,9 +37,10 @@ then
         hundreds=$(($var/100))
         echo "${numbers[$hundreds]} hundred"
     else
-        thousands=$(($var/100))*100
-        hundreds=$(($var%100))
-        echo "${numbers[$thousands]}-${numbers[$hundreds]}"
+        hundreds_num=$(($var/100))
+        # hundreds=$(($var%100))
+        
+        echo "${numbers[$hundreds_num]} hundred ${numbers[$hundreds]}"
     fi 
 elif [[ $var -lt 999999 ]]
 then
