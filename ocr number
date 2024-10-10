@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+declare -A DIGITS=(
+  [" _ | ||_|   "]=0 ["     |  |   "]=1
+  [" _  _||_    "]=2 [" _  _| _|   "]=3
+  ["   |_|  |   "]=4 [" _ |_  _|   "]=5
+  [" _ |_ |_|   "]=6 [" _   |  |   "]=7
+  [" _ |_||_|   "]=8 [" _ |_| _|   "]=9)
+
+main() {
+  readarray -t input_grid -u 0
+  if ((${#input_grid[@]} % 4)); then
+    echo "Number of input lines is not a multiple of four"
+    return 1
+  fi
+  declare -a result
+  for ((j = 0; j < ${#input_grid[@]}; j += 4)); do
+    row="${input_grid[j]}" digits=""
+    for ((i = 0; i < ${#row}; i += 3)); do
+      digit=""
+      for ((a = 0; a < 4; a++)); do
+        chunk="${input_grid[j + a]}"
+        if (( ${#chunk} % 3 )); then
+          echo "Number of input columns is not a multiple of three"
+          return 1
+        fi
+        digit+="${chunk:i:3}"
+      done
+      ocr_digit="${DIGITS[$digit]}"
+      if [[ "$ocr_digit" ]]; then
+        digits+=$ocr_digit
+      else
+        digits+="?"
+      fi
+    done
+    result+=( "$digits" )
+  done
+  f_result="${result[@]}"
+  echo "${f_result// /,}"
+}
+
+
+[[ -t 0 ]] && exit  0
+main
