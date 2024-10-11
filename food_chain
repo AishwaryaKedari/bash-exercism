@@ -1,0 +1,36 @@
+#!/bin/bash
+
+recite() {
+    start_verse=$1
+    end_verse=$2
+    
+    names=("fly" "spider" "bird" "cat" "dog" "goat" "cow" "horse")
+    middle_lines=" wriggled and jiggled and tickled inside her"
+    lines=("" "" "How absurd!" "Imagine that," "What a hog!" "Just opened her throat and" "I don't know how she" "")
+    
+    for ((verses=start_verse; verses<=end_verse; verses++)); do
+        if [[ $verses -ne 8 ]]; then
+            echo "I know an old lady who swallowed a ${names[$verses - 1]}."
+
+            for ((verse=verses-1; verse>0; verse--)); do
+                if [[ $verse -eq 1 ]]; then
+                    echo "She swallowed the ${names[$verse]} to catch the ${names[$verse - 1]} that$middle_lines."
+                else
+                    echo "She swallowed the ${names[$verse]} to catch the ${names[$verse - 1]}."
+                fi
+            done
+            
+            echo "I don't know why she swallowed the fly. Perhaps she'll die."
+        else
+            echo "I know an old lady who swallowed a ${names[$verses - 1]}."
+            echo "She's dead, of course!"
+        fi
+        
+        if [[ $verses -ne $end_verse ]]; then
+            echo ""  # Add a blank line between verses
+        fi
+    done
+}
+
+# Example usage
+recite $1 $2
